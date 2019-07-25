@@ -5,11 +5,16 @@ const restricted = require('../auth/restricted-middleware.js');
 
 router.get('/', restricted, (req, res) => {
   console.log('req.jwtToken', req.jwtToken)
-  Users.find()
-    .then(users => {
-      res.json(users);
-    })
-    .catch(err => res.send(err));
+  const department = req.jwtToken.department
+  if (department === null) {
+    res.status(400).json({message: "department not valid or missing"})
+  } else {
+    Users.find(department)
+      .then(users => {
+        res.json(users);
+      })
+      .catch(err => res.send(err));
+  }
 });
 
 module.exports = router;

@@ -44,7 +44,8 @@ router.post('/login', (req, res) => {
 function generateToken(user) {
   const jwtPayload = {
     subject: user.id,
-    username: user.username
+    username: user.username,
+    department: user.department
   }
 
   const jwtSecret = process.env.JWT_SECRET || 'keep it secret'
